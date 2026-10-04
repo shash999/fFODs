@@ -1,0 +1,27 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Model weights / exports / engines (large; regenerate with scripts/)
+*.pt
+*.onnx
+*.engine
+*.plan
+models/*
+!models/.gitkeep
+
+# Build outputs
+parser/*.so
+*.o
+
+# Runtime outputs
+*.mp4
+*.log
+runs/
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

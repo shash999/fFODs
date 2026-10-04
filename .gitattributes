@@ -1,0 +1,7 @@
+# Keep Linux files LF so they run inside the container / on the Jetson
+*.sh text eol=lf
+*.py text eol=lf
+*.cpp text eol=lf
+Makefile text eol=lf
+Dockerfile text eol=lf
+*.txt text eol=lf
