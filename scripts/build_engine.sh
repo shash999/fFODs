@@ -9,22 +9,20 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 MAX_BATCH="${1:-4}"
 PREC="${2:-fp16}"
-ONNX="$ROOT/models/model.onnx"
-ENGINE="$ROOT/models/model.engine"
 TRTEXEC="${TRTEXEC:-/usr/src/tensorrt/bin/trtexec}"
 INPUT="images"   # Ultralytics input name
 IMGSZ=640
 
-[[ -f "$ONNX" ]] || { echo "missing $ONNX - run scripts/export_onnx.py first"; exit 1; }
-
 PREC_FLAGS=()
 case "$PREC" in
-  fp16) PREC_FLAGS=(--fp16) ;;
-  # Without a calibration cache this INT8 build is for speed testing only; accuracy is not calibrated.
-  int8) PREC_FLAGS=(--int8 --fp16) ;;
-  fp32) ;;
+  fp16) ONNX="$ROOT/models/model.onnx";      ENGINE="$ROOT/models/model.engine";      PREC_FLAGS=(--fp16) ;;
+  fp32) ONNX="$ROOT/models/model.onnx";      ENGINE="$ROOT/models/model.fp32.engine" ;;
+  # QDQ model from scripts/quantize_int8.py: INT8 where calibrated, FP16 elsewhere.
+  int8) ONNX="$ROOT/models/model.int8.onnx"; ENGINE="$ROOT/models/model.int8.engine"; PREC_FLAGS=(--int8 --fp16) ;;
   *) echo "unknown precision $PREC"; exit 1 ;;
 esac
+
+[[ -f "$ONNX" ]] || { echo "missing $ONNX - run scripts/export_onnx.py (and quantize_int8.py for int8) first"; exit 1; }
 
 "$TRTEXEC" \
   --onnx="$ONNX" \

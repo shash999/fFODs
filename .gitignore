@@ -17,6 +17,7 @@ parser/*.so
 
 # Runtime outputs
 *.mp4
+test_out.jpg
 *.log
 runs/
 
@@ -25,3 +26,10 @@ runs/
 .idea/
 Thumbs.db
 .DS_Store
+stats*.json*
+Notes.md
+datasets/
+eval_results.jsonl
+*.csv
+*.png
+configs/pgie_yolo_e2e.txt

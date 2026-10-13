@@ -10,4 +10,8 @@ ARG PYDS_VER=1.2.0
 RUN pip3 install --no-cache-dir \
     https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/releases/download/v${PYDS_VER}/pyds-${PYDS_VER}-cp310-cp310-linux_x86_64.whl
 
+# Accuracy evaluation (scripts/eval_coco.py). numpy<2 keeps pyds happy.
+RUN pip3 install --no-cache-dir "numpy<2" "opencv-python-headless<4.11" pycocotools \
+    && (python3 -c "import tensorrt" 2>/dev/null || pip3 install --no-cache-dir "tensorrt-cu12==10.3.*")
+
 WORKDIR /work

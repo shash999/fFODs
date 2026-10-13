@@ -22,6 +22,8 @@ model-color-format=0
 net-scale-factor=0.0039215697906911373
 maintain-aspect-ratio=1
 symmetric-padding=1
+# Bilinear resize to 640 (what the model was trained with). scripts/eval_coco.py matches this.
+scaling-filter=1
 
 # NMS is inside the model: no clustering on the CPU.
 cluster-mode=4
